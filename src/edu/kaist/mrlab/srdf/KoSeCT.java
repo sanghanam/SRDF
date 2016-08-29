@@ -10,13 +10,14 @@ import java.util.Scanner;
 import java.util.Set;
 
 import edu.kaist.mrlab.srdf.data.Chunk;
+import edu.kaist.mrlab.srdf.data.Globals;
 import edu.kaist.mrlab.srdf.data.Sentence;
-import edu.kaist.mrlab.srdf.data.TypicalPattern;
 import edu.kaist.mrlab.srdf.modules.Chunker;
 import edu.kaist.mrlab.srdf.modules.CoreExtractor;
 import edu.kaist.mrlab.srdf.modules.DPWDChanger;
 import edu.kaist.mrlab.srdf.modules.Preprocessor;
 import edu.kaist.mrlab.srdf.modules.StmtSegmter;
+import edu.kaist.mrlab.srdf.pattern.TypicalPattern;
 import edu.kaist.mrlab.srdf.tools.KoreanAnalyzer;
 
 public class KoSeCT {
@@ -33,7 +34,7 @@ public class KoSeCT {
 	Preprocessor p = new Preprocessor();
 
 	protected static int seperatedSentence = 0;
-	private static final String UTF8_BOM = "\uFEFF";
+	
 	private Scanner scan;
 
 	static int p1 = 0;
@@ -87,19 +88,6 @@ public class KoSeCT {
 					// chunker.printChunks2File(filebw);
 //					chunker.printSTC2Console();
 
-					// String pattern = getPattern(chunker);
-					// System.out.println(pattern);
-					//
-					// if (tp.isMatchedType1(pattern)) {
-					// p1++;
-					// } else if (tp.isMatchedType2(pattern)) {
-					// p2++;
-					// } else if (tp.isMatchedType3(pattern)) {
-					// p3++;
-					// } else if (tp.isMatchedType4(pattern)) {
-					// p4++;
-					// }
-
 					seperatedSentence++;
 
 					boolean SBJflag = false;
@@ -134,24 +122,11 @@ public class KoSeCT {
 					
 					chunker.chunk(result);
 
-//					chunker.printSTC2Console();
 					seperatedSentence++;
 
 				}
 
 				chunkers.add(chunker);
-
-				// for(int n = 0; n < chunker.getNPChunks().size(); n++){
-				// nv.add(chunker.getNPChunks().get(n));
-				// }
-				//
-				// for(int v = 0; v < chunker.getVPChunks().size(); v++){
-				// nv.add(chunker.getVPChunks().get(v));
-				// }
-				//
-				// for(int n = 0; n < nv.size(); n++){
-				// System.out.println(nv.get(n).getID());
-				// }
 
 			}
 
@@ -188,80 +163,14 @@ public class KoSeCT {
 		return chunkers;
 	}
 
-	protected String getPattern(Chunker c) {
-		String result = "";
-
-		ArrayList<Chunk> vpTmp = c.getVPChunks();
-		ArrayList<Chunk> npTmp = c.getNPChunks();
-		ArrayList<Integer> idList = new ArrayList<Integer>();
-		for (int i = 0; i < vpTmp.size(); i++) {
-			idList.add(vpTmp.get(i).getID());
-			idList.addAll(vpTmp.get(i).getMod());
-
-			// for(int j = 0; j < mod.size(); j++){
-			// if(id < mod.get(j)){
-			// System.out.println("UNEXPECTED HEADING !!");
-			// }
-			// }
-
-		}
-
-		Set<Integer> idSet = new HashSet<>(idList);
-		ArrayList<Integer> uniqueIdList = new ArrayList<Integer>(idSet);
-		Collections.sort(uniqueIdList);
-
-		for (int i = 0; i < uniqueIdList.size(); i++) {
-
-			int tmp = uniqueIdList.get(i);
-
-			for (int j = 0; j < npTmp.size(); j++) {
-
-				if (npTmp.get(j).getID() == tmp) {
-					result += "n";
-				}
-
-			}
-
-			for (int k = 0; k < vpTmp.size(); k++) {
-
-				if (vpTmp.get(k).getID() == tmp) {
-					result += "v";
-				}
-
-			}
-		}
-
-		return result;
-	}
 
 	protected String removeUTF8BOM(String s) {
-		if (s.startsWith(UTF8_BOM)) {
+		if (s.startsWith(Globals.UTF8_BOM)) {
 			s = s.substring(1);
 		}
 		return s;
 	}
 
-	protected String changeSymbol(String input) {
-		input = input.replace("“", "'");
-		input = input.replace("”", "'");
-
-		input = input.replace("\"", "'");
-		input = input.replace("\"", "'");
-
-		input = input.replace("《", "'");
-		input = input.replace("》", "'");
-
-		input = input.replace("‘", "'");
-		input = input.replace("’", "'");
-
-		input = input.replace("〈", "'");
-		input = input.replace("〉", "'");
-		
-//		input = input.replace("을것이다", "을 것이다");
-//		input = input.replace("오르가논입니다", "오르가논 입니다");
-		
-		return input;
-	}
 	
 	public static void main(String[] ar) {
 
@@ -289,7 +198,7 @@ public class KoSeCT {
 			String input = null;
 			while ((input = filebr.readLine()) != null) {
 				if (input.length() != 0) {
-					input = kosect.changeSymbol(input);
+					input = p.changeSymbol(input);
 					input = kosect.removeUTF8BOM(input);
 					input = p.removeBracket(input);
 					// System.out.println("============= " + sentence + "

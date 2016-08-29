@@ -300,59 +300,6 @@ public class Chunker {
 
 	}
 
-	public void printChunks2File(BufferedWriter filebw) {
-		try {
-
-			String result = "";
-
-			result += "Sentence: " + text.get("text") + "\n";
-
-			result += "==NPChunks==" + "\n";
-			for (int i = 0; i < NPChunks.size(); i++) {
-				result += NPChunks.get(i).print() + " / " + NPChunks.get(i).getID() + " / " + NPChunks.get(i).getLabel()
-						+ "\n";
-			}
-
-			result += "==VPChunks==" + "\n";
-			for (int i = 0; i < VPChunks.size(); i++) {
-				result += VPChunks.get(i).print() + " / " + VPChunks.get(i).getID() + " / " + VPChunks.get(i).getMod()
-						+ "\n";
-			}
-
-			result += "\n";
-			result += "\n";
-
-			filebw.write(result);
-
-		} catch (Exception e) {
-
-		}
-
-	}
-
-	public void printSTC2Console() {
-		System.out.println("Sentence: " + text.get("text"));
-	}
-
-	public void printChunks2Console() {
-		System.out.println("Sentence: " + text.get("text"));
-
-		System.out.println("==NPChunks==");
-		for (int i = 0; i < NPChunks.size(); i++) {
-			System.out.println(
-					NPChunks.get(i).print() + " / " + NPChunks.get(i).getID() + " / " + NPChunks.get(i).getLabel());
-		}
-
-		System.out.println();
-		System.out.println("==VPChunks==");
-		for (int i = 0; i < VPChunks.size(); i++) {
-			System.out.println(
-					VPChunks.get(i).print() + " / " + VPChunks.get(i).getID() + " / " + VPChunks.get(i).getMod());
-		}
-		System.out.println();
-		System.out.println();
-	}
-
 	public String processMod(JSONObject target, String input) {
 
 		String result = input;
@@ -396,6 +343,57 @@ public class Chunker {
 		}
 		return result;
 	}
+	
+	public void printChunks2File(BufferedWriter filebw) {
+		try {
+
+			String result = "";
+
+			result += "Sentence: " + text.get("text") + "\n";
+
+			result += "==NPChunks==" + "\n";
+			for (int i = 0; i < NPChunks.size(); i++) {
+				result += NPChunks.get(i).print() + " / " + NPChunks.get(i).getID() + " / " + NPChunks.get(i).getLabel()
+						+ "\n";
+			}
+
+			result += "==VPChunks==" + "\n";
+			for (int i = 0; i < VPChunks.size(); i++) {
+				result += VPChunks.get(i).print() + " / " + VPChunks.get(i).getID() + " / " + VPChunks.get(i).getMod()
+						+ "\n";
+			}
+
+			result += "\n";
+			result += "\n";
+
+			filebw.write(result);
+
+		} catch (Exception e) {
+
+		}
+
+	}
+
+	public void printSTC2Console() {
+		System.out.println("Sentence: " + text.get("text"));
+	}
+
+	public void printChunks2Console() {
+		System.out.println("==NPChunks==");
+		for (int i = 0; i < NPChunks.size(); i++) {
+			System.out.println(
+					NPChunks.get(i).print() + " / " + NPChunks.get(i).getID() + " / " + NPChunks.get(i).getLabel());
+		}
+
+		System.out.println();
+		System.out.println("==VPChunks==");
+		for (int i = 0; i < VPChunks.size(); i++) {
+			System.out.println(
+					VPChunks.get(i).print() + " / " + VPChunks.get(i).getID() + " / " + VPChunks.get(i).getMod());
+		}
+		System.out.println();
+		System.out.println();
+	}
 
 	public static void main(String[] ar) {
 		CoreExtractor parser = new CoreExtractor();
@@ -412,6 +410,7 @@ public class Chunker {
 
 			Chunker c = new Chunker();
 			c.chunk(result);
+			c.printSTC2Console();
 			c.printChunks2Console();
 			// BufferedWriter filebw = new BufferedWriter(new
 			// OutputStreamWriter(
