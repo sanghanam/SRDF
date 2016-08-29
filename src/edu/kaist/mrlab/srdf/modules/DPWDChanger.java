@@ -72,7 +72,7 @@ public class DPWDChanger {
 				boolean stop = true;
 				while (dt.hasNext()) {
 					JSONObject innerDepen = (JSONObject) dt.next();
-					int depenID = (int) innerDepen.get("id");
+					int depenID = (int) (long) innerDepen.get("id");
 					String depenLabel = (String) innerDepen.get("label");
 					if (depenLabel.equals("NP_SBJ") && stop) {
 						firstSBJID = depenID;
@@ -97,15 +97,15 @@ public class DPWDChanger {
 				while (d.hasNext()) {
 
 					JSONObject innerDepen = (JSONObject) d.next();
-					int depenID = (int) innerDepen.get("id");
-					int depenHead = (int) innerDepen.get("head");
+					int depenID = Integer.parseInt((String) innerDepen.get("id"));
+					int depenHead = Integer.parseInt((String) innerDepen.get("head"));
 					String depenText = (String) innerDepen.get("text");
 					String depenLabel = (String) innerDepen.get("label");
 					JSONArray depenMod = (JSONArray) innerDepen.get("mod");
 					ArrayList<Integer> depenModArr = new ArrayList<Integer>();
 					Iterator<?> dm = depenMod.iterator();
 					while (dm.hasNext()) {
-						depenModArr.add((int) dm.next());
+						depenModArr.add(Integer.parseInt((String) dm.next()));
 					}
 
 					// if(depenText.contains("한다는")){
@@ -129,9 +129,9 @@ public class DPWDChanger {
 
 						JSONObject innerWord = (JSONObject) w.next();
 						String wordText = (String) innerWord.get("text");
-						int wordID = (int) innerWord.get("id");
-						int wordBegin = (int) innerWord.get("begin");
-						int wordEnd = (int) innerWord.get("end");
+						int wordID = Integer.parseInt((String) innerWord.get("id"));
+						int wordBegin = Integer.parseInt((String) innerWord.get("begin"));
+						int wordEnd = Integer.parseInt((String) innerWord.get("end"));
 
 						// System.out.println(wordID + "\t" + wordText + "\t"
 						// + wordBegin + "\t" + wordEnd);
@@ -147,14 +147,14 @@ public class DPWDChanger {
 						for (int k = 0; k <= wordEnd - wordBegin; k++) {
 
 							JSONObject innerMorp = (JSONObject) m.next();
-							int morpID = (int) innerMorp.get("id");
+							int morpID = Integer.parseInt((String) innerMorp.get("id"));
 
 							String morpType = (String) innerMorp.get("type");
 							String morpLemma = (String) innerMorp.get("lemma");
 
 							Iterator<?> pm = morpArr.iterator();
 
-							for (int i = 0; i < (int) morpID - 1; i++) {
+							for (int i = 0; i < morpID - 1; i++) {
 								pm.next();
 							}
 							JSONObject prevMorp = (JSONObject) pm.next();
@@ -193,21 +193,21 @@ public class DPWDChanger {
 										}
 
 										JSONObject VP2NP = (JSONObject) dma.next();
-										int dmaID = (int) VP2NP.get("id");
+										int dmaID = Integer.parseInt((String) VP2NP.get("id"));
 										String dmaLabel = (String) VP2NP.get("label");
 										if (dmaLabel.contains("VP")) {
 
 											int newHead = getNewHead(depenHead);
 											VP2NP.replace("head", newHead);
 											changeModOfNewHead(newHead, dmaID);
-											depenMod.remove((Object) (int) dmaID);
+											depenMod.remove((Object) dmaID);
 
 										} else if (dmaLabel.contains("NP_SBJ") && dmaID == firstSBJID) {
 
 											int newHead = getNewHead(depenHead);
 											VP2NP.replace("head", newHead);
 											changeModOfNewHead(newHead, dmaID);
-											depenMod.remove((Object) (int) dmaID);
+											depenMod.remove((Object) dmaID);
 
 										}
 									}
@@ -223,17 +223,17 @@ public class DPWDChanger {
 					lastDepen = (JSONObject) depenArr.get(depenArr.size() - 1);
 					JSONObject lastSecDepen = (JSONObject) depenArr.get(depenArr.size() - 2);
 
-					int lastDepenHead = (int) lastDepen.get("head");
+					int lastDepenHead = Integer.parseInt((String) lastDepen.get("head"));
 					JSONArray lastDepenMod = (JSONArray) lastDepen.get("mod");
-					int lastDepenID = (int) lastDepen.get("id");
+					int lastDepenID = Integer.parseInt((String) lastDepen.get("id"));
 					String lastDepenText = (String) lastDepen.get("text");
 					lastDepenLabel = (String) lastDepen.get("label");
 
 					// 뒤에서 두 번째 Word의 정보
 
-					int lastSecDepenHead = (int) lastSecDepen.get("head");
+					int lastSecDepenHead = Integer.parseInt((String) lastSecDepen.get("head"));
 					JSONArray lastSecDepenMod = (JSONArray) lastSecDepen.get("mod");
-					int lastSecDepenID = (int) lastSecDepen.get("id");
+					int lastSecDepenID = Integer.parseInt((String) lastSecDepen.get("id"));
 					String lastSecDepenText = (String) lastSecDepen.get("text");
 					String lastSecDepenLabel = (String) lastSecDepen.get("label");
 
@@ -266,7 +266,7 @@ public class DPWDChanger {
 	}
 
 	@SuppressWarnings("unchecked")
-	public void splitVNP(JSONObject targetDepen, int targetDepenHead, JSONArray targetDepenMod, int targetDepenID,
+	public void splitVNP(JSONObject targetDepen, int targetDepenHead, JSONArray targetDepenMod, long targetDepenID,
 			String targetDepenText, String targetDepenLabel, int index) {
 
 		boolean splitON = false;
@@ -274,9 +274,9 @@ public class DPWDChanger {
 		JSONObject targetWord = (JSONObject) wordArr.get(wordArr.size() - index);
 
 		String targetWordText = (String) targetWord.get("text");
-		int targetWordID = (int) targetWord.get("id");
-		int targetWordBegin = (int) targetWord.get("begin");
-		int targetWordEnd = (int) targetWord.get("end");
+		int targetWordID = Integer.parseInt((String) targetWord.get("id"));
+		int targetWordBegin = Integer.parseInt((String) targetWord.get("begin"));
+		int targetWordEnd = Integer.parseInt((String) targetWord.get("end"));
 
 		Iterator<?> m = morpArr.iterator();
 
@@ -312,7 +312,7 @@ public class DPWDChanger {
 			}
 			for (int k = 0; k <= targetWordEnd - targetWordBegin; k++) {
 				JSONObject innerMorp = (JSONObject) m.next();
-//				int morpID = (int) innerMorp.get("id");
+//				long morpID = (long) innerMorp.get("id");
 				String morpType = (String) innerMorp.get("type");
 				String morpLemma = (String) innerMorp.get("lemma");
 
@@ -367,17 +367,17 @@ public class DPWDChanger {
 
 			while (dm.hasNext()) {
 				Iterator<?> da = depenArr.iterator();
-				int id = (int) dm.next();
+				int id = Integer.parseInt((String) dm.next());
 				for (int i = 0; i < id; i++) {
 					da.next();
 				}
 				JSONObject tempDP = (JSONObject) da.next();
 				String depenLabel = (String) tempDP.get("label");
 				if (depenLabel.equals("NP_SBJ")) {
-					removeID.add((int) id);
-					sbjID = (int) id;
+					removeID.add(id);
+					sbjID = id;
 				} else if (depenLabel.equals("VP")) {
-					removeID.add((int) id);
+					removeID.add(id);
 				}
 			}
 
@@ -468,7 +468,7 @@ public class DPWDChanger {
 		JSONObject tempDepen = (JSONObject) d.next();
 
 		int tempHead = Integer.parseInt(tempDepen.get("head").toString());
-		int tempID = (int) tempDepen.get("id");
+		int tempID = Integer.parseInt((String) tempDepen.get("id"));
 		String tempLabel = (String) tempDepen.get("label");
 //		String tempText = (String) tempDepen.get("text");
 
