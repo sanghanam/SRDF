@@ -89,7 +89,7 @@ public class TripleGenerator {
 
 		SBJRELChk = VPChunks.get(VPChunks.size() - 1);
 
-		rel = SBJRELChk.getChunk();
+		rel = SBJRELChk.getChunk() + "#";
 
 		Set<Integer> modArr = new HashSet<Integer>(SBJRELChk.getMod());
 		if(modArr.size() == 0){
@@ -112,17 +112,17 @@ public class TripleGenerator {
 				} else if (before.equals("VP")) {
 
 					sbj = rel;
-					rel = tempChk.getChunk();
+					rel = tempChk.getChunk()  + "#";
 
 				} else {
 					if (modArr.size() == 1) {
 						sbj = rel;
-						rel = tempChk.getChunk();
+						rel = tempChk.getChunk()  + "#";
 						obj = "ANONYMOUS";
 						// System.out.println(sbj + ", " + rel + ", " + obj);
 						triples.add(new Triple(sbj, rel, obj));
 					} else {
-						rel = tempChk.getChunk();
+						rel = tempChk.getChunk()  + "#";
 					}
 				}
 
