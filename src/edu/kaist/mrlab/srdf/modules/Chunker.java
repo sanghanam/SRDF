@@ -68,8 +68,8 @@ public class Chunker {
 				while (d.hasNext()) {
 
 					JSONObject innerDepen = (JSONObject) d.next();
-					int depenHead = (int) (long) innerDepen.get("head");
-					int depenID = (int) (long) innerDepen.get("id");
+					int depenHead = Integer.parseInt(innerDepen.get("head").toString());
+					int depenID = Integer.parseInt(innerDepen.get("id").toString());
 					String depenLabel = (String) innerDepen.get("label");
 
 					if (depenHead == -1) {
@@ -92,7 +92,7 @@ public class Chunker {
 
 						Iterator<?> m = depenMod.iterator();
 						while (m.hasNext()) {
-							int ti = (int) (long) m.next();
+							int ti = Integer.parseInt(m.next().toString());
 							tempMod.add(ti);
 							VPMod.add(ti);
 						}
@@ -123,14 +123,14 @@ public class Chunker {
 
 		ArrayList<Integer> APID = new ArrayList<Integer>();
 		ArrayList<Integer> tempMod = new ArrayList<Integer>();
-		int targetID = (int) (long) target.get("id");
-		int targetHead = (int) (long) target.get("head");
+		int targetID = Integer.parseInt(target.get("id").toString());
+		int targetHead = Integer.parseInt(target.get("head").toString());
 		String targetLabel = (String) target.get("label");
 		String targetText = (String) target.get("text");
 		JSONArray targetMod = (JSONArray) target.get("mod");
 		Iterator<?> m = targetMod.iterator();
 		while (m.hasNext()) {
-			tempMod.add((int) (long) m.next());
+			tempMod.add(Integer.parseInt(m.next().toString()));
 		}
 		String targetChunk = targetText;
 		// mod가 AP인 경우와 NP인 경우, 그리고 VP인 경우로 나눈다.
@@ -247,8 +247,8 @@ public class Chunker {
 
 		JSONObject targetWord = (JSONObject) w.next();
 
-		int wordBegin = (int) (long) targetWord.get("begin");
-		int wordEnd = (int) (long) targetWord.get("end");
+		int wordBegin = Integer.parseInt(targetWord.get("begin").toString());
+		int wordEnd = Integer.parseInt(targetWord.get("end").toString());
 
 		// System.out.println(wordBegin);
 		// System.out.println(wordEnd);
@@ -315,7 +315,7 @@ public class Chunker {
 		Iterator<?> n = NPMod.iterator();
 
 		while (n.hasNext()) {
-			NPModArr.add((int) (long) n.next());
+			NPModArr.add(Integer.parseInt(n.next().toString()));
 		}
 
 		if (!NPModArr.isEmpty()) {
@@ -400,7 +400,7 @@ public class Chunker {
 		KoreanAnalyzer ex = new KoreanAnalyzer();
 		DPWDChanger dtc = new DPWDChanger();
 		try {
-			String output1 = ex.getResult("오디세우스는 그리스 신화상의 영웅으로, 이타카의 영주, 트로이 전쟁의 영웅, 트로이 목마의 고안자이다.");
+			String output1 = ex.getResult("경복궁에 속한 이 건물의 이름은 무엇일까'");
 			// 교명은 요한, 아호는 우사, 죽적 등이다.
 			// 쾰른 대성당은 세계에서는 세 번째로 높은 로마네스크·고딕 양식 성당이다.
 

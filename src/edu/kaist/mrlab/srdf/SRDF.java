@@ -75,8 +75,6 @@ public class SRDF {
 
 			for (int j = 0; j < splittedSTC.size(); j++) {
 
-				 System.out.println(splittedSTC.get(j));
-
 				input = p.changeSymbol(splittedSTC.get(j));
 				input = kosect.removeUTF8BOM(input);
 				input = p.removeBracket(input);
@@ -92,7 +90,7 @@ public class SRDF {
 					tg.generate();
 					ArrayList<Triple> triples = tg.getTriples();
 
-//					writeTriples(triples, c);
+					writeTriples(triples, c);
 
 					for (int k = 0; k < triples.size(); k++) {
 						Triple t = triples.get(k);
@@ -130,13 +128,11 @@ public class SRDF {
 		}
 	}
 
-	public void doArticle(KoSeCT kosect, Preprocessor p, SentenceSplitter ss) {
+	public void doArticle(KoSeCT kosect, Preprocessor p, SentenceSplitter ss, String inputFile, String outputFile) {
 		try {
 
-			filebr = new BufferedReader(
-					new InputStreamReader(new FileInputStream("data/솔트룩스_문제_for_SRDF.txt"), "UTF8"));
-			filebw = new BufferedWriter(
-					new OutputStreamWriter(new FileOutputStream("data/솔트룩스_문제_for_SRDF_triples.txt"), "UTF8"));
+			filebr = new BufferedReader(new InputStreamReader(new FileInputStream(inputFile), "UTF8"));
+			filebw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), "UTF8"));
 
 			String input = null;
 			while ((input = filebr.readLine()) != null) {
@@ -211,6 +207,17 @@ public class SRDF {
 
 	public static void main(String[] ar) throws NoSuchElementException {
 
+		String inputFile = null;
+		String outputFile = null;
+
+		if (ar[0].equals("-i")) {
+			inputFile = ar[1];
+		}
+
+		if (ar[2].equals("-o")) {
+			outputFile = ar[3];
+		}
+
 		long startTime = System.currentTimeMillis();
 
 		KoSeCT kosect = new KoSeCT();
@@ -218,10 +225,10 @@ public class SRDF {
 		SentenceSplitter ss = new SentenceSplitter();
 		SRDF srdf = new SRDF();
 
-		 String input = srdf.inputSentence();
-		 srdf.doOneSentence(kosect, p, ss, input);
+		// String input = srdf.inputSentence();
+		// srdf.doOneSentence(kosect, p, ss, input);
 		// srdf.doWikiDump(kosect, p, ss);
-//		srdf.doArticle(kosect, p, ss);
+		srdf.doArticle(kosect, p, ss, inputFile, outputFile);
 		// srdf.doSampleFile(kosect, p, ss);
 
 		// 종료 시간
