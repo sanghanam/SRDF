@@ -90,7 +90,7 @@ public class SRDF {
 					tg.generate();
 					ArrayList<Triple> triples = tg.getTriples();
 
-					writeTriples(triples, c);
+//					writeTriples(triples, c);
 
 					for (int k = 0; k < triples.size(); k++) {
 						Triple t = triples.get(k);
@@ -228,7 +228,7 @@ public class SRDF {
 		// String input = srdf.inputSentence();
 		// srdf.doOneSentence(kosect, p, ss, input);
 		// srdf.doWikiDump(kosect, p, ss);
-		srdf.doArticle(kosect, p, ss, inputFile, outputFile);
+//		srdf.doArticle(kosect, p, ss, inputFile, outputFile);
 		// srdf.doSampleFile(kosect, p, ss);
 
 		// 종료 시간
