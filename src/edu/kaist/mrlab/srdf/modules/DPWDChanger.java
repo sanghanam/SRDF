@@ -384,7 +384,7 @@ public class DPWDChanger {
 			JSONArray newDepenMod = new JSONArray();
 
 			for (int i = 0; i < removeID.size(); i++) {
-				targetDepenMod.remove((int) removeID.get(i));
+				targetDepenMod.remove((Object) (int) removeID.get(i));
 				newDepenMod.add((int) removeID.get(i));
 			}
 
@@ -506,7 +506,7 @@ public class DPWDChanger {
 		KoreanAnalyzer ex = new KoreanAnalyzer();
 		DPWDChanger dtc = new DPWDChanger();
 		try {
-			String output1 = ex.getResult("2008년 6월 17일, 프로젝트가 진행된 지 15년째에 Wine의 첫 번째 안정 버전인 1.0이 출시됐다, .");
+			String output1 = ex.getResult("경복궁에 속한 이 건물의 이름은 무엇일까?\"");
 			String output2 = parser.parse(output1);
 			// System.out.println(output2);
 
