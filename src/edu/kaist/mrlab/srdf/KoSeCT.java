@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 import edu.kaist.mrlab.srdf.data.Chunk;
 import edu.kaist.mrlab.srdf.data.Globals;
@@ -17,7 +14,6 @@ import edu.kaist.mrlab.srdf.modules.CoreExtractor;
 import edu.kaist.mrlab.srdf.modules.DPWDChanger;
 import edu.kaist.mrlab.srdf.modules.Preprocessor;
 import edu.kaist.mrlab.srdf.modules.StmtSegmter;
-import edu.kaist.mrlab.srdf.pattern.TypicalPattern;
 import edu.kaist.mrlab.srdf.tools.KoreanAnalyzer;
 
 public class KoSeCT {
@@ -30,7 +26,6 @@ public class KoSeCT {
 	DPWDChanger dtc = new DPWDChanger();
 	StmtSegmter ss = new StmtSegmter();
 	Chunker chunker = null;
-	TypicalPattern tp = new TypicalPattern();
 	Preprocessor p = new Preprocessor();
 
 	protected static int seperatedSentence = 0;
