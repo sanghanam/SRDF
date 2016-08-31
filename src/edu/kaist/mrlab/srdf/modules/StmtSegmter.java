@@ -58,7 +58,7 @@ public class StmtSegmter {
 				while (d.hasNext()) {
 
 					JSONObject innerDepen = (JSONObject) d.next();
-					int depenID = (int) (long) innerDepen.get("id");
+					int depenID = Integer.parseInt(innerDepen.get("id").toString());
 					// String depenText = (String) innerDepen.get("text");
 					String depenLabel = (String) innerDepen.get("label");
 
@@ -77,8 +77,8 @@ public class StmtSegmter {
 						JSONObject innerWord = (JSONObject) w.next();
 						// String wordText = (String) innerWord.get("text");
 						// long wordID = (long) innerWord.get("id");
-						long wordBegin = (long) innerWord.get("begin");
-						long wordEnd = (long) innerWord.get("end");
+						long wordBegin = Long.parseLong(innerWord.get("begin").toString());
+						long wordEnd = Long.parseLong(innerWord.get("end").toString());
 
 						// System.out.println(wordID + "\t" + wordText + "\t"
 						// + wordBegin + "\t" + wordEnd);

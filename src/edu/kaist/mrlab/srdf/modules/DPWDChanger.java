@@ -367,7 +367,7 @@ public class DPWDChanger {
 
 			while (dm.hasNext()) {
 				Iterator<?> da = depenArr.iterator();
-				long id = (long) dm.next();
+				long id = Long.parseLong(dm.next().toString());
 				for (int i = 0; i < id; i++) {
 					da.next();
 				}
