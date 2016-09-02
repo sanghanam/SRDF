@@ -9,6 +9,7 @@ public class Chunk {
 	private ArrayList<Integer> APID;
 	private String label;
 	private ArrayList<Integer> mod;
+	private String provenance;
 
 	public Chunk(String chunk, String postposition) {
 		this.chunk = chunk;
@@ -97,6 +98,14 @@ public class Chunk {
 
 	public void setAPID(ArrayList<Integer> aPID) {
 		this.APID = aPID;
+	}
+	
+	public String getProvenance() {
+		return provenance;
+	}
+
+	public void setProvenance(String provenance) {
+		this.provenance = provenance;
 	}
 
 	public String print() {

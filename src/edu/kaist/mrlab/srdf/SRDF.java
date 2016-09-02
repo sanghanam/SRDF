@@ -15,6 +15,7 @@ import java.util.StringTokenizer;
 
 import edu.kaist.mrlab.srdf.data.Triple;
 import edu.kaist.mrlab.srdf.modules.Chunker;
+import edu.kaist.mrlab.srdf.modules.Identifier;
 import edu.kaist.mrlab.srdf.modules.Preprocessor;
 import edu.kaist.mrlab.srdf.modules.SentenceSplitter;
 import edu.kaist.mrlab.srdf.modules.TripleGenerator;
@@ -30,6 +31,7 @@ public class SRDF {
 
 	private static int readedSTC = 0;
 	private static int generatedTriples = 0;
+	private static ArrayList<Triple> allTriples = new ArrayList<Triple>();
 
 	public String inputSentence() {
 
@@ -52,6 +54,7 @@ public class SRDF {
 
 		for (int j = 0; j < triples.size(); j++) {
 			Triple t = triples.get(j);
+			allTriples.add(t);
 			filebw.write(t.getSubject() + "\t" + t.getPredicate() + "\t" + t.getObject() + "\n");
 		}
 		generatedTriples += triples.size();
@@ -86,11 +89,16 @@ public class SRDF {
 				}
 
 				for (Chunker c : chunkers) {
+					iden.identify(c.getVPChunks());
 					TripleGenerator tg = new TripleGenerator(c.getNPChunks(), c.getVPChunks());
 					tg.generate();
 					ArrayList<Triple> triples = tg.getTriples();
 
-//					writeTriples(triples, c);
+					if (filebw == null) {
+
+					} else {
+						writeTriples(triples, c);
+					}
 
 					for (int k = 0; k < triples.size(); k++) {
 						Triple t = triples.get(k);
@@ -128,6 +136,8 @@ public class SRDF {
 		}
 	}
 
+	Identifier iden = new Identifier();
+
 	public void doArticle(KoSeCT kosect, Preprocessor p, SentenceSplitter ss, String inputFile, String outputFile) {
 		try {
 
@@ -143,6 +153,7 @@ public class SRDF {
 
 				}
 			}
+
 			filebr.close();
 			filebw.close();
 
@@ -228,7 +239,7 @@ public class SRDF {
 		// String input = srdf.inputSentence();
 		// srdf.doOneSentence(kosect, p, ss, input);
 		// srdf.doWikiDump(kosect, p, ss);
-//		srdf.doArticle(kosect, p, ss, inputFile, outputFile);
+		srdf.doArticle(kosect, p, ss, inputFile, outputFile);
 		// srdf.doSampleFile(kosect, p, ss);
 
 		// 종료 시간

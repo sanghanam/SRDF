@@ -358,7 +358,8 @@ public class DPWDChanger {
 
 			int newLastWordBegin;
 			targetWord.replace("text", targetWordText, NP);
-			targetWord.replace("end", targetWordEnd, newLastWordBegin = (int) (targetWordBegin + wordEndCount - 1));
+			newLastWordBegin = (targetWordBegin + wordEndCount - 1);
+			targetWord.replace("end", (long) targetWordEnd, (long) newLastWordBegin);
 
 			ArrayList<Integer> removeID = new ArrayList<Integer>();
 			Iterator<?> dm = targetDepenMod.iterator();
@@ -506,7 +507,7 @@ public class DPWDChanger {
 		KoreanAnalyzer ex = new KoreanAnalyzer();
 		DPWDChanger dtc = new DPWDChanger();
 		try {
-			String output1 = ex.getResult("2008년 6월 17일, 프로젝트가 진행된 지 15년째에 Wine의 첫 번째 안정 버전인 1.0이 출시됐다, .");
+			String output1 = ex.getResult("알베르트 아인슈타인은 독일 태생의 미국 이론물리학자이다.");
 			String output2 = parser.parse(output1);
 			// System.out.println(output2);
 

@@ -400,7 +400,7 @@ public class Chunker {
 		KoreanAnalyzer ex = new KoreanAnalyzer();
 		DPWDChanger dtc = new DPWDChanger();
 		try {
-			String output1 = ex.getResult("경복궁에 속한 이 건물의 이름은 무엇일까'");
+			String output1 = ex.getResult("알베르트 아인슈타인은 독일 태생의 미국 이론물리학자이다.");
 			// 교명은 요한, 아호는 우사, 죽적 등이다.
 			// 쾰른 대성당은 세계에서는 세 번째로 높은 로마네스크·고딕 양식 성당이다.
 

@@ -47,8 +47,8 @@ public class TripleGenerator {
 				return (obj1.getID() < obj2.getID()) ? -1 : (obj1.getID() > obj2.getID()) ? 1 : 0;
 			}
 		});
-		
-		if(NPChunks.size() == 0 || VPChunks.size() == 0){
+
+		if (NPChunks.size() == 0 || VPChunks.size() == 0) {
 			return;
 		}
 
@@ -89,10 +89,10 @@ public class TripleGenerator {
 
 		SBJRELChk = VPChunks.get(VPChunks.size() - 1);
 
-		rel = SBJRELChk.getChunk();
+		rel = SBJRELChk.getChunk() + "#" + SBJRELChk.getProvenance();
 
 		Set<Integer> modArr = new HashSet<Integer>(SBJRELChk.getMod());
-		if(modArr.size() == 0){
+		if (modArr.size() == 0) {
 			return;
 		}
 		int maxMod = Collections.max(modArr);
@@ -112,17 +112,17 @@ public class TripleGenerator {
 				} else if (before.equals("VP")) {
 
 					sbj = rel;
-					rel = tempChk.getChunk();
+					rel = tempChk.getChunk() + "#" + tempChk.getProvenance();
 
 				} else {
 					if (modArr.size() == 1) {
 						sbj = rel;
-						rel = tempChk.getChunk();
+						rel = tempChk.getChunk() + "#" + tempChk.getProvenance();
 						obj = "ANONYMOUS";
 						// System.out.println(sbj + ", " + rel + ", " + obj);
 						triples.add(new Triple(sbj, rel, obj));
 					} else {
-						rel = tempChk.getChunk();
+						rel = tempChk.getChunk() + "#" + tempChk.getProvenance();
 					}
 				}
 
