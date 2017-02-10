@@ -4,7 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 import edu.kaist.mrlab.srdf.data.Chunk;
 import edu.kaist.mrlab.srdf.data.Globals;
@@ -139,6 +143,8 @@ public class KoSeCT {
 
 			String text = input;
 			String output3 = ex.getResult(text);
+			
+
 			
 			if(p.passOrNot(output3)){
 				return chunkers;

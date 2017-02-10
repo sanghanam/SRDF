@@ -20,7 +20,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<configuration>
-					<mainClass>edu.kaist.mrlab.srdf.rest.Main</mainClass>
+					<mainClass>edu.kaist.mrlab.srdf.SRDF</mainClass>
 				</configuration>
 			</plugin>
 			<plugin>

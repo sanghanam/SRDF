@@ -13,7 +13,7 @@ import com.sun.jersey.api.container.grizzly2.GrizzlyServerFactory;
 import com.sun.jersey.api.core.PackagesResourceConfig;
 import com.sun.jersey.api.core.ResourceConfig;
 
-public class Main {
+public class SRDFMain {
 
 	private static URI getBaseURI() {
 
@@ -26,7 +26,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return UriBuilder.fromUri("http://143.248.135.216/").port(8831).build();
+		return UriBuilder.fromUri("http://143.248.135.216/").port(8832).build();
 	}
 
 	public static final URI BASE_URI = getBaseURI();

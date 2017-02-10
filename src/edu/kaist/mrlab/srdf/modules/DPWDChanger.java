@@ -507,7 +507,7 @@ public class DPWDChanger {
 		KoreanAnalyzer ex = new KoreanAnalyzer();
 		DPWDChanger dtc = new DPWDChanger();
 		try {
-			String output1 = ex.getResult("알베르트 아인슈타인은 독일 태생의 미국 이론물리학자이다.");
+			String output1 = ex.getResult("맥수지탄은 고국의 멸망을 한탄함을 의미하는 사자성어이다.");
 			String output2 = parser.parse(output1);
 			// System.out.println(output2);
 

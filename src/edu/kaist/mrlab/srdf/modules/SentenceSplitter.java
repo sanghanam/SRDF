@@ -1,5 +1,11 @@
 package edu.kaist.mrlab.srdf.modules;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -10,15 +16,17 @@ import org.json.simple.parser.JSONParser;
 import edu.kaist.mrlab.srdf.tools.KoreanAnalyzer;
 
 public class SentenceSplitter {
-	
+
+	String sbj = "다큐멘터리 Live / Play: 살며, 게임하며는 ";
 	KoreanAnalyzer ka = new KoreanAnalyzer();
-	
-	public ArrayList<String> splitSentence(String input){
-		
+
+
+	public ArrayList<String> splitSentence(String input) {
+
 		ArrayList<String> results = new ArrayList<String>();
-		
+
 		try {
-			
+
 			String resultOfKA = ka.getResult(input);
 
 			JSONParser jsonParser = new JSONParser();
@@ -28,34 +36,63 @@ public class SentenceSplitter {
 			JSONArray sentArr = (JSONArray) jsonObject.get("sentence");
 
 			Iterator<?> s = sentArr.iterator();
-			
+
 			while (s.hasNext()) {
-			
+				
+				boolean contSBJ = false;
+
 				JSONObject innerOBJ = (JSONObject) s.next();
 				String text = (String) innerOBJ.get("text");
-				results.add(text);
+
+				if(text.contains("[") && text.contains("]")){
+					text = text.substring(0, text.indexOf("[")) + text.substring(text.indexOf("]"), text.length());
+				}
+
+				JSONArray dependency = (JSONArray) innerOBJ.get("dependency");
+				Iterator<?> di = dependency.iterator();
+				while (di.hasNext()) {
+					JSONObject depen = (JSONObject) di.next();
+					String label = depen.get("label").toString();
+					if (label.equals("NP_SBJ")) {
+						
+						contSBJ = true;
+						
+					}
+
+				}
 				
+				if(!contSBJ){
+					text = sbj + text;
+				}
+
+				results.add(text.trim());
+
 			}
-			
-			
-		} catch (Exception e){
-			
+
+		} catch (Exception e) {
+
 		}
-		
-		
+
 		return results;
 	}
-	
-	
-	
-	public static void main(String[] ar){
-		
+
+	public static void main(String[] ar) throws Exception {
+
 		SentenceSplitter ss = new SentenceSplitter();
-		
-		ArrayList<String> results = ss.splitSentence("공간에 대한 연구는 기하학에서 시작되었고, 특히 유클리드 기하학에서 비롯되었다. 삼각법은 공간과 수들을 결합하였고, 잘 알려진 피타고라스의 정리를 포함한다. 현대에 와서 공간에 대한 연구는, 이러한 개념들은 더 높은 차원의 기하학을 다루기 위해 비유클리드 기하학(상대성이론에서 핵심적인 역할을 함)과 위상수학으로 일반화되었다. 수론과 공간에 대한 이해는 모두 해석 기하학, 미분기하학, 대수기하학에 중요한 역할을 한다. 리 군도 공간과 구조, 변화를 다루는데 사용된다. 위상수학은 20세기 수학의 다양한 지류속에서 괄목할만한 성장을 한 분야이며, 푸앵카레 추측과 인간에 의해서 증명되지 못하고 오직 컴퓨터로만 증명된 4색정리를 포함한다.");
-		for(int i = 0; i < results.size(); i++){
-			System.out.println(results.get(i));
+
+		BufferedReader filebr = new BufferedReader(new InputStreamReader(new FileInputStream("data/리그 오브 레전드.txt"), "UTF8"));
+		BufferedWriter filebw = new BufferedWriter(
+				new OutputStreamWriter(new FileOutputStream("data/리그 오브 레전드_spt.txt"), "UTF8"));
+
+		String input;
+		while ((input = filebr.readLine()) != null) {
+			ArrayList<String> results = ss.splitSentence(input);
+			for (int i = 0; i < results.size(); i++) {
+				filebw.write(results.get(i) + "\n");
+			}
 		}
-		
+		filebr.close();
+		filebw.close();
+
 	}
 }

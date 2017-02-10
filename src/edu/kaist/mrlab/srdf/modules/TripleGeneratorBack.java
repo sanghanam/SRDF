@@ -10,7 +10,7 @@ import edu.kaist.mrlab.srdf.data.Chunk;
 import edu.kaist.mrlab.srdf.data.Triple;
 import edu.kaist.mrlab.srdf.tools.Constants;
 
-public class TripleGenerator {
+public class TripleGeneratorBack {
 
 	ArrayList<Chunk> NPChunks;
 	ArrayList<Chunk> VPChunks;
@@ -114,18 +114,23 @@ public class TripleGenerator {
 
 						if (rel.contains("#")) {
 
-							triples.add(new Triple(sbj, rel, obj));
+							triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+									"<" + Constants.propertyPrefix + rel + ">",
+									"<" + Constants.entityPrefix + obj + ">"));
 						} else {
 
-							triples.add(new Triple(sbj, rel, obj));
+							triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+									"<" + Constants.josaPrefix + rel + ">", "<" + Constants.entityPrefix + obj + ">"));
 						}
 
 					} else {
-						triples.add(new Triple(sbj, rel, obj));
+						triples.add(new Triple("<" + Constants.entityPrefix + sbj + ">",
+								"<" + Constants.propertyPrefix + rel + ">", "<" + Constants.entityPrefix + obj + ">"));
 					}
 
 					if (rel.contains("#")) {
-						triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+						triples.add(new Triple("<" + Constants.propertyPrefix + rel + ">", "<" + Constants.sp + ">",
+								"<" + Constants.propertyPrefix + rel.substring(0, rel.indexOf("#")) + ">"));
 					}
 
 					sbj = rel;
@@ -146,16 +151,23 @@ public class TripleGenerator {
 						if (sbj.contains("#")) {
 							if (rel.contains("#")) {
 
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+										"<" + Constants.propertyPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							} else {
 
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+										"<" + Constants.josaPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							}
 						} else {
-							triples.add(new Triple(sbj, rel, obj));
+							triples.add(new Triple("<" + Constants.entityPrefix + sbj + ">",
+									"<" + Constants.propertyPrefix + rel + ">",
+									"<" + Constants.entityPrefix + obj + ">"));
 						}
 						if (rel.contains("#")) {
-							triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+							triples.add(new Triple("<" + Constants.propertyPrefix + rel + ">", "<" + Constants.sp + ">",
+									"<" + Constants.propertyPrefix + rel.substring(0, rel.indexOf("#")) + ">"));
 						}
 					} else {
 						rel = tempChk.getChunk() + "#" + Constants.fileName + "#" + Constants.lineNumber + "#"
@@ -186,16 +198,23 @@ public class TripleGenerator {
 						if (sbj.contains("#")) {
 							if (rel.contains("#")) {
 
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+										"<" + Constants.propertyPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							} else {
 
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+										"<" + Constants.josaPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							}
 						} else {
-							triples.add(new Triple(sbj, rel, obj));
+							triples.add(new Triple("<" + Constants.entityPrefix + sbj + ">",
+									"<" + Constants.propertyPrefix + rel + ">",
+									"<" + Constants.entityPrefix + obj + ">"));
 						}
 						if (rel.contains("#")) {
-							triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+							triples.add(new Triple("<" + Constants.propertyPrefix + rel + ">", "<" + Constants.sp + ">",
+									"<" + Constants.propertyPrefix + rel.substring(0, rel.indexOf("#")) + ">"));
 						}
 						modArr.remove((Object) maxMod);
 
@@ -207,16 +226,24 @@ public class TripleGenerator {
 							if (sbj.contains("#")) {
 								if (rel.contains("#")) {
 
-									triples.add(new Triple(sbj, rel, obj));
+									triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+											"<" + Constants.propertyPrefix + rel + ">",
+											"<" + Constants.entityPrefix + obj + ">"));
 								} else {
 
-									triples.add(new Triple(sbj, rel, obj));
+									triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+											"<" + Constants.josaPrefix + rel + ">",
+											"<" + Constants.entityPrefix + obj + ">"));
 								}
 							} else {
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.entityPrefix + sbj + ">",
+										"<" + Constants.propertyPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							}
 							if (rel.contains("#")) {
-								triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+								triples.add(new Triple("<" + Constants.propertyPrefix + rel + ">",
+										"<" + Constants.sp + ">",
+										"<" + Constants.propertyPrefix + rel.substring(0, rel.indexOf("#")) + ">"));
 							}
 							modArr.remove((Object) maxMod);
 							sbj = rel;
@@ -226,12 +253,18 @@ public class TripleGenerator {
 							// System.out.println(sbj + ", " + rel + ", " +
 							// obj);
 							if (sbj.contains("#")) {
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+										"<" + Constants.propertyPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							} else {
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.entityPrefix + sbj + ">",
+										"<" + Constants.propertyPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							}
 							if (rel.contains("#")) {
-								triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+								triples.add(new Triple("<" + Constants.propertyPrefix + rel + ">",
+										"<" + Constants.sp + ">",
+										"<" + Constants.propertyPrefix + rel.substring(0, rel.indexOf("#")) + ">"));
 							}
 							sbj = rel;
 						}
@@ -257,16 +290,23 @@ public class TripleGenerator {
 						if (sbj.contains("#")) {
 							if (rel.contains("#")) {
 
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+										"<" + Constants.propertyPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							} else {
 
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+										"<" + Constants.josaPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							}
 						} else {
-							triples.add(new Triple(sbj, rel, obj));
+							triples.add(new Triple("<" + Constants.entityPrefix + sbj + ">",
+									"<" + Constants.propertyPrefix + rel + ">",
+									"<" + Constants.entityPrefix + obj + ">"));
 						}
 						if (rel.contains("#")) {
-							triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+							triples.add(new Triple("<" + Constants.propertyPrefix + rel + ">", "<" + Constants.sp + ">",
+									"<" + Constants.propertyPrefix + rel.substring(0, rel.indexOf("#")) + ">"));
 						}
 
 						if (triples.size() > 2) {
@@ -281,16 +321,24 @@ public class TripleGenerator {
 							if (sbj.contains("#")) {
 								if (rel.contains("#")) {
 
-									triples.add(new Triple(sbj, rel, obj));
+									triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+											"<" + Constants.propertyPrefix + rel + ">",
+											"<" + Constants.entityPrefix + obj + ">"));
 								} else {
 
-									triples.add(new Triple(sbj, rel, obj));
+									triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+											"<" + Constants.josaPrefix + rel + ">",
+											"<" + Constants.entityPrefix + obj + ">"));
 								}
 							} else {
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.entityPrefix + sbj + ">",
+										"<" + Constants.propertyPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							}
 							if (rel.contains("#")) {
-								triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+								triples.add(new Triple("<" + Constants.propertyPrefix + rel + ">",
+										"<" + Constants.sp + ">",
+										"<" + Constants.propertyPrefix + rel.substring(0, rel.indexOf("#")) + ">"));
 							}
 							sbj = rel;
 						}
@@ -303,16 +351,23 @@ public class TripleGenerator {
 						if (sbj.contains("#")) {
 							if (rel.contains("#")) {
 
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+										"<" + Constants.propertyPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							} else {
 
-								triples.add(new Triple(sbj, rel, obj));
+								triples.add(new Triple("<" + Constants.propertyPrefix + sbj + ">",
+										"<" + Constants.josaPrefix + rel + ">",
+										"<" + Constants.entityPrefix + obj + ">"));
 							}
 						} else {
-							triples.add(new Triple(sbj, rel, obj));
+							triples.add(new Triple("<" + Constants.entityPrefix + sbj + ">",
+									"<" + Constants.propertyPrefix + rel + ">",
+									"<" + Constants.entityPrefix + obj + ">"));
 						}
 						if (rel.contains("#")) {
-							triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+							triples.add(new Triple("<" + Constants.propertyPrefix + rel + ">", "<" + Constants.sp + ">",
+									"<" + Constants.propertyPrefix + rel.substring(0, rel.indexOf("#")) + ">"));
 						}
 					}
 				}
@@ -351,7 +406,7 @@ public class TripleGenerator {
 		return c;
 	}
 
-	public TripleGenerator(ArrayList<Chunk> NPChunks, ArrayList<Chunk> VPChunks) {
+	public TripleGeneratorBack(ArrayList<Chunk> NPChunks, ArrayList<Chunk> VPChunks) {
 		this.NPChunks = NPChunks;
 		this.VPChunks = VPChunks;
 	}

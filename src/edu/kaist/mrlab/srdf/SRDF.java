@@ -46,11 +46,18 @@ public class SRDF {
 		return sentence;
 	}
 
+	static int srdfiedSTC = 0;
+	static int splittedSTC = 0;
+
 	public static void writeTriples(ArrayList<Triple> triples, Chunker c) throws Exception {
 
 		filebw.write("STC : " + c.getText().get("text") + "\n");
-		System.out.println("STC : " + c.getText().get("text"));
+		// System.out.println("STC : " + c.getText().get("text"));
 		readedSTC++;
+		if (triples.size() > 0) {
+
+			srdfiedSTC++;
+		}
 
 		for (int j = 0; j < triples.size(); j++) {
 			Triple t = triples.get(j);
@@ -72,6 +79,7 @@ public class SRDF {
 
 	public String doOneSentence(KoSeCT kosect, Preprocessor p, SentenceSplitter ss, String input) {
 		String qTriples = "";
+		Constants.fileName = "noDoc";
 		try {
 
 			ArrayList<String> splittedSTC = ss.splitSentence(input);
@@ -89,7 +97,7 @@ public class SRDF {
 				}
 
 				for (Chunker c : chunkers) {
-					iden.identify(c.getVPChunks());
+					iden.identifyVP(c.getVPChunks());
 					TripleGenerator tg = new TripleGenerator(c.getNPChunks(), c.getVPChunks());
 					tg.generate();
 					ArrayList<Triple> triples = tg.getTriples();
@@ -99,6 +107,9 @@ public class SRDF {
 					} else {
 						writeTriples(triples, c);
 					}
+
+					System.out.println();
+					System.out.println("STC: " + input);
 
 					for (int k = 0; k < triples.size(); k++) {
 						Triple t = triples.get(k);
@@ -118,7 +129,7 @@ public class SRDF {
 	public void doSampleFile(KoSeCT kosect, Preprocessor p, SentenceSplitter ss) {
 		try {
 
-			filebr = new BufferedReader(new InputStreamReader(new FileInputStream("data/test/sample4.txt"), "UTF8"));
+			filebr = new BufferedReader(new InputStreamReader(new FileInputStream("data/이은재_spt.txt"), "UTF8"));
 
 			String input = null;
 			while ((input = filebr.readLine()) != null) {
@@ -178,6 +189,7 @@ public class SRDF {
 				int size = st.countTokens();
 				for (int k = 0; k < size; k++) {
 					fileName = st.nextToken();
+					Constants.fileName = fileName.replace(".txt", "");
 				}
 
 				System.out.println(filePath);
@@ -188,12 +200,77 @@ public class SRDF {
 				filebw = new BufferedWriter(
 						new OutputStreamWriter(new FileOutputStream(Constants.wikiPathOutput + fileName), "UTF8"));
 
+				int lineNumber = 0;
+				String input = null;
+				while ((input = filebr.readLine()) != null) {
+					if (input.length() != 0 && !p.filterOut(input)) {
+						// readedStc++;
+						Constants.lineNumber = lineNumber;
+						lineNumber++;
+						doOneSentence(kosect, p, ss, input);
+
+					}
+				}
+				filebr.close();
+				filebw.close();
+				File f = new File(filePath);
+				f.delete();
+
+				// System.out.println("readed sentence : " + readedStc);
+				// System.out.println("generated triples : " +
+				// generatedTriples);
+
+			}
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(filePath);
+		}
+
+	}
+
+	public void doBrochetteDump(KoSeCT kosect, Preprocessor p, SentenceSplitter ss) {
+
+		try {
+
+			File fl = new File(Constants.brochettePathInput);
+			FolderInReader fir = new FolderInReader();
+			ArrayList<String> arrFS = fir.RECURSIVE_FILE(fl);
+			for (int i = 0; i < arrFS.size(); i++) {
+
+				filePath = arrFS.get(i);
+
+				String fileName = null;
+				StringTokenizer st = new StringTokenizer(filePath, "\\");
+				int size = st.countTokens();
+				for (int k = 0; k < size; k++) {
+					fileName = st.nextToken();
+				}
+
+				System.out.println(filePath);
+				if (!filePath.contains(".txt")) {
+					continue;
+				}
+				filebr = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF8"));
+				filebw = new BufferedWriter(
+						new OutputStreamWriter(new FileOutputStream(Constants.brochettePathOutput + fileName), "UTF8"));
+
 				String input = null;
 				while ((input = filebr.readLine()) != null) {
 					if (input.length() != 0 && !p.filterOut(input)) {
 						// readedStc++;
 
-						doOneSentence(kosect, p, ss, input);
+						if (input.contains("__<__") && input.contains("__>__") && !input.contains("PAGE_STRUCT")) {
+							input = input.replace("<DESC>", "");
+							input = input.substring(3, input.length());
+							input = input.replace("__<__", "");
+							input = input.replace("__>__", "");
+							input = input.replace(">", "");
+							System.out.println(input);
+
+							doOneSentence(kosect, p, ss, input);
+						}
 
 					}
 				}
@@ -218,16 +295,16 @@ public class SRDF {
 
 	public static void main(String[] ar) throws NoSuchElementException {
 
-		String inputFile = null;
-		String outputFile = null;
-
-		if (ar[0].equals("-i")) {
-			inputFile = ar[1];
-		}
-
-		if (ar[2].equals("-o")) {
-			outputFile = ar[3];
-		}
+		// String inputFile = null;
+		// String outputFile = null;
+		//
+		// if (ar[0].equals("-i")) {
+		// inputFile = ar[1];
+		// }
+		//
+		// if (ar[2].equals("-o")) {
+		// outputFile = ar[3];
+		// }
 
 		long startTime = System.currentTimeMillis();
 
@@ -236,10 +313,11 @@ public class SRDF {
 		SentenceSplitter ss = new SentenceSplitter();
 		SRDF srdf = new SRDF();
 
-		// String input = srdf.inputSentence();
-		// srdf.doOneSentence(kosect, p, ss, input);
+		String input = srdf.inputSentence();
+		srdf.doOneSentence(kosect, p, ss, input);
 		// srdf.doWikiDump(kosect, p, ss);
-		srdf.doArticle(kosect, p, ss, inputFile, outputFile);
+		// srdf.doBrochetteDump(kosect, p, ss);
+		// srdf.doArticle(kosect, p, ss, inputFile, outputFile);
 		// srdf.doSampleFile(kosect, p, ss);
 
 		// 종료 시간
@@ -250,6 +328,7 @@ public class SRDF {
 		System.out.println("##  소요시간(초.0f) : " + (endTime - startTime) / 1000.0f + "초");
 
 		System.out.println("## 입력 문장 수 : " + readedSTC);
+		System.out.println("## 변환된 문장 수 : " + srdfiedSTC);
 		System.out.println("## 출력 트리플 수 : " + generatedTriples);
 
 	}

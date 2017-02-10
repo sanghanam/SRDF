@@ -14,11 +14,13 @@ import org.json.simple.parser.JSONParser;
 
 import edu.kaist.mrlab.srdf.KoSeCT;
 import edu.kaist.mrlab.srdf.SRDF;
+import edu.kaist.mrlab.srdf.modules.EntityLinker;
 import edu.kaist.mrlab.srdf.modules.Preprocessor;
 import edu.kaist.mrlab.srdf.modules.SentenceSplitter;
 
-@Path("/srdf")
-public class SRDFPOSTService {
+
+@Path("/el_srdf")
+public class ELSRDFPOSTService {
 
 	KoSeCT kosect = new KoSeCT();
 	Preprocessor p = new Preprocessor();
@@ -32,21 +34,37 @@ public class SRDFPOSTService {
 	public Response getPost(String input) throws Exception {
 
 		// @FormParam("text")
-
+		
 		SRDF srdf = new SRDF();
+		EntityLinker el = new EntityLinker();
 		String result = "empty";
-
+		String output = null;
+		
 		JSONParser jsonParser = new JSONParser();
 		JSONObject reader = (JSONObject) jsonParser.parse(input);
+		String mode = (String) reader.get("mode");
 		String text = (String) reader.get("text");
-
-		result = srdf.doOneSentence(kosect, p, ss, text);
-
-		JSONObject resultOBJ = new JSONObject();
-		resultOBJ.put("triples", result);
-
-		result = resultOBJ.toString();
-
+		String out = (String) reader.get("out");
+		
+		if(mode.equals("stc")){
+			output = srdf.doOneSentence(kosect, p, ss, text);
+			result = el.pipeEL(output, text);
+			
+		}
+		
+		if(out.equals("plain")){
+			
+			
+			
+		} else if(out.equals("json")){
+			
+			JSONObject resultOBJ = new JSONObject();
+			resultOBJ.put("triples", result);
+			
+			result = resultOBJ.toString();
+			
+		}
+		
 		return Response.ok(result).entity(result)
 				.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 				.header("Access-Control-Allow-Origin", "*")
@@ -64,5 +82,5 @@ public class SRDFPOSTService {
 				.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept").build();
 
 	}
-
+	
 }

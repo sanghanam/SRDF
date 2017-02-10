@@ -20,7 +20,7 @@ public class KoreanAnalyzer {
 
 		try {
 			ia = InetAddress.getByName(serverIp);
-			soc = new Socket(ia, 10110);
+			soc = new Socket(ia, 44400);
 
 			OutputStream os = soc.getOutputStream();
 			BufferedOutputStream bos = new BufferedOutputStream(os);
@@ -60,7 +60,7 @@ public class KoreanAnalyzer {
 		KoreanAnalyzer ex = new KoreanAnalyzer();
 		
 		try {
-			String output = ex.getResult("세종대왕은 한자를 모르는 민중을 위해 한글을 창제하였다.");
+			String output = ex.getResult("한글과컴퓨터");
 			System.out.println(output);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
