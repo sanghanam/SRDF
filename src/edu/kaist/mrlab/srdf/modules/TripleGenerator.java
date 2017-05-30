@@ -19,6 +19,12 @@ public class TripleGenerator {
 	public ArrayList<Triple> getTriples() {
 		return triples;
 	}
+	
+	public String addProvenance(Chunk SBJRELChk){
+		
+		return "#" + Constants.fileName + "#" + Constants.lineNumber + "#" + SBJRELChk.getProvenance();
+		
+	}
 
 	public void generate() {
 
@@ -90,8 +96,7 @@ public class TripleGenerator {
 
 		SBJRELChk = VPChunks.get(VPChunks.size() - 1);
 
-		rel = SBJRELChk.getChunk() + "#" + Constants.fileName + "#" + Constants.lineNumber + "#"
-				+ SBJRELChk.getProvenance();
+		rel = SBJRELChk.getChunk() + addProvenance(SBJRELChk);
 
 		Set<Integer> modArr = new HashSet<Integer>(SBJRELChk.getMod());
 
@@ -125,7 +130,7 @@ public class TripleGenerator {
 					}
 
 					if (rel.contains("#")) {
-						triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+						triples.add(new Triple(rel, "abstract", rel.substring(0, rel.indexOf("#"))));
 					}
 
 					sbj = rel;
@@ -133,14 +138,14 @@ public class TripleGenerator {
 				} else if (before.equals("VP")) {
 
 					sbj = rel;
-					rel = tempChk.getChunk() + "#" + Constants.fileName + "#" + Constants.lineNumber + "#"
-							+ tempChk.getProvenance();
+					rel = tempChk.getChunk() + addProvenance(tempChk);
 
 				} else {
 					if (modArr.size() == 1) {
-						sbj = rel;
-						rel = tempChk.getChunk() + "#" + Constants.fileName + "#" + Constants.lineNumber + "#"
-								+ tempChk.getProvenance();
+						if(rel.contains("#")){
+							sbj = rel;
+						}
+						rel = tempChk.getChunk() + addProvenance(tempChk);
 						obj = "ANONYMOUS";
 						// System.out.println(sbj + ", " + rel + ", " + obj);
 						if (sbj.contains("#")) {
@@ -155,11 +160,10 @@ public class TripleGenerator {
 							triples.add(new Triple(sbj, rel, obj));
 						}
 						if (rel.contains("#")) {
-							triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+							triples.add(new Triple(rel, "abstract", rel.substring(0, rel.indexOf("#"))));
 						}
 					} else {
-						rel = tempChk.getChunk() + "#" + Constants.fileName + "#" + Constants.lineNumber + "#"
-								+ tempChk.getProvenance();
+						rel = tempChk.getChunk() + addProvenance(tempChk);
 					}
 				}
 
@@ -195,7 +199,7 @@ public class TripleGenerator {
 							triples.add(new Triple(sbj, rel, obj));
 						}
 						if (rel.contains("#")) {
-							triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+							triples.add(new Triple(rel, "abstract", rel.substring(0, rel.indexOf("#"))));
 						}
 						modArr.remove((Object) maxMod);
 
@@ -216,7 +220,7 @@ public class TripleGenerator {
 								triples.add(new Triple(sbj, rel, obj));
 							}
 							if (rel.contains("#")) {
-								triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+								triples.add(new Triple(rel, "abstract", rel.substring(0, rel.indexOf("#"))));
 							}
 							modArr.remove((Object) maxMod);
 							sbj = rel;
@@ -231,7 +235,7 @@ public class TripleGenerator {
 								triples.add(new Triple(sbj, rel, obj));
 							}
 							if (rel.contains("#")) {
-								triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+								triples.add(new Triple(rel, "abstract", rel.substring(0, rel.indexOf("#"))));
 							}
 							sbj = rel;
 						}
@@ -266,11 +270,13 @@ public class TripleGenerator {
 							triples.add(new Triple(sbj, rel, obj));
 						}
 						if (rel.contains("#")) {
-							triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+							triples.add(new Triple(rel, "abstract", rel.substring(0, rel.indexOf("#"))));
 						}
 
 						if (triples.size() > 2) {
-							sbj = rel;
+							if(rel.contains("#")){
+								sbj = rel;
+							}
 						}
 
 					} else {
@@ -290,7 +296,7 @@ public class TripleGenerator {
 								triples.add(new Triple(sbj, rel, obj));
 							}
 							if (rel.contains("#")) {
-								triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+								triples.add(new Triple(rel, "abstract", rel.substring(0, rel.indexOf("#"))));
 							}
 							sbj = rel;
 						}
@@ -312,7 +318,7 @@ public class TripleGenerator {
 							triples.add(new Triple(sbj, rel, obj));
 						}
 						if (rel.contains("#")) {
-							triples.add(new Triple(rel, "sp", rel.substring(0, rel.indexOf("#"))));
+							triples.add(new Triple(rel, "abstract", rel.substring(0, rel.indexOf("#"))));
 						}
 					}
 				}

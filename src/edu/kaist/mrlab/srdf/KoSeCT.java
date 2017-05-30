@@ -4,11 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Scanner;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import edu.kaist.mrlab.srdf.data.Chunk;
 import edu.kaist.mrlab.srdf.data.Globals;
@@ -19,6 +15,7 @@ import edu.kaist.mrlab.srdf.modules.DPWDChanger;
 import edu.kaist.mrlab.srdf.modules.Preprocessor;
 import edu.kaist.mrlab.srdf.modules.StmtSegmter;
 import edu.kaist.mrlab.srdf.tools.KoreanAnalyzer;
+import edu.kaist.mrlab.srdf.tools.KoreanAnalyzerREST;
 
 public class KoSeCT {
 
@@ -26,7 +23,8 @@ public class KoSeCT {
 	// private static BufferedWriter filebw;
 
 	CoreExtractor parser = new CoreExtractor();
-	KoreanAnalyzer ex = new KoreanAnalyzer();
+	KoreanAnalyzer ka = new KoreanAnalyzer();
+	KoreanAnalyzerREST kare = new KoreanAnalyzerREST();
 	DPWDChanger dtc = new DPWDChanger();
 	StmtSegmter ss = new StmtSegmter();
 	Chunker chunker = null;
@@ -59,7 +57,8 @@ public class KoSeCT {
 
 		try {
 			String prevSBJ = "";
-			String output1 = ex.getResult(input);
+			String output1 = ka.getResult(input);
+//			String output1 = kare.callETRI(input);
 			String output2 = parser.parse(output1);
 
 			ArrayList<Integer> segPoint = ss.findSegPoint(output2);
@@ -73,7 +72,7 @@ public class KoSeCT {
 				if (tempSTC.isContainsSBJ()) {
 					String text = tempSTC.getTextOfSentence();
 					// String text = input;
-					String output3 = ex.getResult(text);
+					String output3 = ka.getResult(text);
 					
 					if(p.passOrNot(output3)){
 						return chunkers;
@@ -103,7 +102,7 @@ public class KoSeCT {
 
 					String beAttachedSBJ = prevSBJ + " " + tempSTC.getTextOfSentence();
 
-					String output3 = ex.getResult(beAttachedSBJ);
+					String output3 = ka.getResult(beAttachedSBJ);
 					
 					if(p.passOrNot(output3)){
 						return chunkers;
@@ -142,9 +141,8 @@ public class KoSeCT {
 			chunker = new Chunker();
 
 			String text = input;
-			String output3 = ex.getResult(text);
-			
-
+			String output3 = ka.getResult(text);
+//			String output3 = kare.callETRI(text);
 			
 			if(p.passOrNot(output3)){
 				return chunkers;
@@ -165,7 +163,7 @@ public class KoSeCT {
 	}
 
 
-	protected String removeUTF8BOM(String s) {
+	public String removeUTF8BOM(String s) {
 		if (s.startsWith(Globals.UTF8_BOM)) {
 			s = s.substring(1);
 		}
@@ -205,7 +203,7 @@ public class KoSeCT {
 					// System.out.println("============= " + sentence + "
 					// =============");
 					// System.out.println("original sentence: " + input);
-					kosect.doPreprocessWithoutSplitting(input);
+					kosect.doPreprocessWithSplitting(input);
 
 				}
 

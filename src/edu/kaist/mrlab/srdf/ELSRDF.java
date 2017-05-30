@@ -18,7 +18,6 @@ public class ELSRDF {
 		String input = srdf.inputSentence();
 		String output = srdf.doOneSentence(kosect, p, ss, input);
 		System.out.println(el.pipeEL(output, input));
-		
 
 	}
 }

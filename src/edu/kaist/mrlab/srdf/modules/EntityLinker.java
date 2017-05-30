@@ -1,12 +1,6 @@
 package edu.kaist.mrlab.srdf.modules;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.StringTokenizer;
@@ -32,10 +26,6 @@ public class EntityLinker {
 
 		try {
 
-			// filebr = new BufferedReader(
-			// new InputStreamReader(new
-			// FileInputStream("data/test/srdf_output.txt"), "UTF8"));
-
 			StringTokenizer stLine = new StringTokenizer(srdfOutput, "\n");
 
 			while (stLine.hasMoreTokens()) {
@@ -59,7 +49,8 @@ public class EntityLinker {
 					}
 
 					elLinkedOutput += subject + "\t" + predicate + "\t" + object + "\n";
-//					System.out.println(subject + "\t" + predicate + "\t" + object);
+					// System.out.println(subject + "\t" + predicate + "\t" +
+					// object);
 
 				}
 
@@ -151,7 +142,6 @@ public class EntityLinker {
 		EntityLinker el = new EntityLinker();
 		String elOutput = el.callEL("정약용은 화성을 쌓기 위해 기기도설이란 책을 참고하였다.");
 		el.parseELOutput(elOutput);
-		// el.changeURI("정약용은 화성을 쌓기 위해 기기도설이란 책을 참고하였다.");
 
 	}
 }

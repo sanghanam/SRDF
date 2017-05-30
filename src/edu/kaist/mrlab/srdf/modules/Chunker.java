@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 import edu.kaist.mrlab.srdf.data.Chunk;
-import edu.kaist.mrlab.srdf.tools.KoreanAnalyzer;
+import edu.kaist.mrlab.srdf.tools.KoreanAnalyzerREST;
 import edu.kaist.mrlab.srdf.tools.StringEdit;
 
 public class Chunker {
@@ -20,6 +20,7 @@ public class Chunker {
 	JSONArray morpArr = null;
 	JSONArray depenArr = null;
 	JSONArray wordArr = null;
+	JSONArray wsdArr = null;
 
 	String depenText = null;
 
@@ -53,10 +54,12 @@ public class Chunker {
 				JSONObject morp = (JSONObject) s.next();
 				JSONObject depen = (JSONObject) s.next();
 				JSONObject word = (JSONObject) s.next();
+				JSONObject wsd = (JSONObject) s.next();
 
 				morpArr = (JSONArray) morp.get("morp");
 				depenArr = (JSONArray) depen.get("dependency");
 				wordArr = (JSONArray) word.get("word");
+				wsdArr = (JSONArray) word.get("WSD");
 
 				// head가 -1인 VP를 찾는다.
 
@@ -397,26 +400,20 @@ public class Chunker {
 
 	public static void main(String[] ar) {
 		CoreExtractor parser = new CoreExtractor();
-		KoreanAnalyzer ex = new KoreanAnalyzer();
+		KoreanAnalyzerREST ex = new KoreanAnalyzerREST();
 		DPWDChanger dtc = new DPWDChanger();
 		try {
-			String output1 = ex.getResult("리그 오브 레전드는  기존의 AOS 게임과 달리 장르의 높던 진입장벽을 낮춤으로써 대중성을 살려 인기를 얻은 게임으로, 2014년부터 꾸준히 PC방 온라인 게임 점유율 1위를 차지하면서 한국에서는 한때나마 기존 스타크래프트의 위치를 계승하는 e스포츠의 중심으로 떠올랐었다.");
+			String output1 = ex.callETRI("트럼프는 미국 공화당의 지지없이 대통령에 당선되었다.");
 			// 교명은 요한, 아호는 우사, 죽적 등이다.
 			// 쾰른 대성당은 세계에서는 세 번째로 높은 로마네스크·고딕 양식 성당이다.
 
 			String output2 = parser.parse(output1);
-
 			String result = dtc.change(output2);
 
 			Chunker c = new Chunker();
 			c.chunk(result);
 			c.printSTC2Console();
 			c.printChunks2Console();
-			// BufferedWriter filebw = new BufferedWriter(new
-			// OutputStreamWriter(
-			// new FileOutputStream("data\\chunked\\test12.json"), "UTF8"));
-			// filebw.write(result);
-			// filebw.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

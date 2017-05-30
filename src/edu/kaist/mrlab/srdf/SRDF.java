@@ -79,7 +79,7 @@ public class SRDF {
 
 	public String doOneSentence(KoSeCT kosect, Preprocessor p, SentenceSplitter ss, String input) {
 		String qTriples = "";
-		Constants.fileName = "noDoc";
+//		Constants.fileName = "noDoc";
 		try {
 
 			ArrayList<String> splittedSTC = ss.splitSentence(input);
@@ -129,7 +129,8 @@ public class SRDF {
 	public void doSampleFile(KoSeCT kosect, Preprocessor p, SentenceSplitter ss) {
 		try {
 
-			filebr = new BufferedReader(new InputStreamReader(new FileInputStream("data/이은재_spt.txt"), "UTF8"));
+			filebr = new BufferedReader(
+					new InputStreamReader(new FileInputStream("data/ds/sentence-occupation.txt"), "UTF8"));
 
 			String input = null;
 			while ((input = filebr.readLine()) != null) {
@@ -189,11 +190,13 @@ public class SRDF {
 				int size = st.countTokens();
 				for (int k = 0; k < size; k++) {
 					fileName = st.nextToken();
-					Constants.fileName = fileName.replace(".txt", "");
+					// Constants.fileName = fileName.replace(".txt", "");
 				}
 
-				System.out.println(filePath);
-				if (!filePath.contains(".txt")) {
+				File f = new File(filePath);
+				if (f.isFile()) {
+
+				} else {
 					continue;
 				}
 				filebr = new BufferedReader(new InputStreamReader(new FileInputStream(filePath), "UTF8"));
@@ -213,7 +216,6 @@ public class SRDF {
 				}
 				filebr.close();
 				filebw.close();
-				File f = new File(filePath);
 				f.delete();
 
 				// System.out.println("readed sentence : " + readedStc);
@@ -306,7 +308,7 @@ public class SRDF {
 		// outputFile = ar[3];
 		// }
 
-		long startTime = System.currentTimeMillis();
+		// long startTime = System.currentTimeMillis();
 
 		KoSeCT kosect = new KoSeCT();
 		Preprocessor p = new Preprocessor();
@@ -314,22 +316,23 @@ public class SRDF {
 		SRDF srdf = new SRDF();
 
 		String input = srdf.inputSentence();
-		srdf.doOneSentence(kosect, p, ss, input);
-		// srdf.doWikiDump(kosect, p, ss);
+		 srdf.doOneSentence(kosect, p, ss, input);
+//		srdf.doWikiDump(kosect, p, ss);
 		// srdf.doBrochetteDump(kosect, p, ss);
 		// srdf.doArticle(kosect, p, ss, inputFile, outputFile);
 		// srdf.doSampleFile(kosect, p, ss);
 
 		// 종료 시간
-		long endTime = System.currentTimeMillis();
+		// long endTime = System.currentTimeMillis();
 		// 시간 출력
-		System.out.println("##  시작시간 : " + new SRDF().formatTime(startTime));
-		System.out.println("##  종료시간 : " + new SRDF().formatTime(endTime));
-		System.out.println("##  소요시간(초.0f) : " + (endTime - startTime) / 1000.0f + "초");
-
-		System.out.println("## 입력 문장 수 : " + readedSTC);
-		System.out.println("## 변환된 문장 수 : " + srdfiedSTC);
-		System.out.println("## 출력 트리플 수 : " + generatedTriples);
+		// System.out.println("## 시작시간 : " + new SRDF().formatTime(startTime));
+		// System.out.println("## 종료시간 : " + new SRDF().formatTime(endTime));
+		// System.out.println("## 소요시간(초.0f) : " + (endTime - startTime) /
+		// 1000.0f + "초");
+		//
+		// System.out.println("## 입력 문장 수 : " + readedSTC);
+		// System.out.println("## 변환된 문장 수 : " + srdfiedSTC);
+		// System.out.println("## 출력 트리플 수 : " + generatedTriples);
 
 	}
 }

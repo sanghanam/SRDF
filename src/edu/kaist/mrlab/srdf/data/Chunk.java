@@ -10,6 +10,7 @@ public class Chunk {
 	private String label;
 	private ArrayList<Integer> mod;
 	private String provenance;
+	private String wsd;
 
 	public Chunk(String chunk, String postposition) {
 		this.chunk = chunk;
@@ -50,6 +51,16 @@ public class Chunk {
 		this.ID = ID;
 		this.label = label;
 		this.mod = mod;
+	}
+	
+	public Chunk(String chunk, String postposition, int ID, String label,
+			ArrayList<Integer> mod, String wsd) {
+		this.chunk = chunk;
+		this.postposition = postposition;
+		this.ID = ID;
+		this.label = label;
+		this.mod = mod;
+		this.wsd = wsd;
 	}
 
 	public String getChunk() {
@@ -106,6 +117,14 @@ public class Chunk {
 
 	public void setProvenance(String provenance) {
 		this.provenance = provenance;
+	}
+	
+	public String getWsd() {
+		return wsd;
+	}
+
+	public void setWsd(String wsd) {
+		this.wsd = wsd;
 	}
 
 	public String print() {

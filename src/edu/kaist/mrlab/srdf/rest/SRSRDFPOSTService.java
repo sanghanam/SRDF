@@ -1,5 +1,7 @@
 package edu.kaist.mrlab.srdf.rest;
 
+import java.util.ArrayList;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.OPTIONS;
@@ -14,12 +16,16 @@ import org.json.simple.parser.JSONParser;
 
 import edu.kaist.mrlab.srdf.KoSeCT;
 import edu.kaist.mrlab.srdf.SRDF;
+import edu.kaist.mrlab.srdf.data.Chunk;
+import edu.kaist.mrlab.srdf.modules.Chunker;
 import edu.kaist.mrlab.srdf.modules.EntityLinker;
+import edu.kaist.mrlab.srdf.modules.Identifier;
 import edu.kaist.mrlab.srdf.modules.Preprocessor;
+import edu.kaist.mrlab.srdf.modules.SRExtractor;
 import edu.kaist.mrlab.srdf.modules.SentenceSplitter;
 
-@Path("/el_srdf")
-public class ELSRDFPOSTService {
+@Path("/sr_srdf")
+public class SRSRDFPOSTService {
 
 	KoSeCT kosect = new KoSeCT();
 	Preprocessor p = new Preprocessor();
@@ -34,21 +40,42 @@ public class ELSRDFPOSTService {
 
 		// @FormParam("text")
 
-		SRDF srdf = new SRDF();
-		EntityLinker el = new EntityLinker();
+		SRExtractor sre = new SRExtractor();
+		KoSeCT kosect = new KoSeCT();
+		Preprocessor p = new Preprocessor();
+		Identifier iden = new Identifier();
+		
 		String result = "empty";
-		String output = null;
 
 		JSONParser jsonParser = new JSONParser();
 		JSONObject reader = (JSONObject) jsonParser.parse(input);
 		String text = (String) reader.get("text");
 
-		output = srdf.doOneSentence(kosect, p, ss, text);
-		result = el.pipeEL(output, text);
-		System.out.println(result);
+		input = p.changeSymbol(text);
+		input = kosect.removeUTF8BOM(input);
+		input = p.removeBracket(input);
+		
+		ArrayList<Chunker> chunkers = kosect.doPreprocessWithoutSplitting(input);
 
+		if (!p.isValidChunk(chunkers) || chunkers.isEmpty()) {
+			System.exit(0);;
+		}
+		
+		String triples = null;
+		
+		for (Chunker c : chunkers) {
+			iden.identifyVP(c.getVPChunks());
+			
+			ArrayList<Chunk> NPChunks = c.getNPChunks();
+			ArrayList<Chunk> VPChunks = c.getNPChunks();
+			
+			triples = sre.makeSRTriple(NPChunks, VPChunks);
+			System.out.println(triples);
+			
+		}
+		
 		JSONObject resultOBJ = new JSONObject();
-		resultOBJ.put("triples", result);
+		resultOBJ.put("triples", triples);
 
 		result = resultOBJ.toString();
 

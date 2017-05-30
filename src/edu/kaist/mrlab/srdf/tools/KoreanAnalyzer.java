@@ -16,11 +16,11 @@ public class KoreanAnalyzer {
 
 		InetAddress ia = null;
 
-		String serverIp = "143.248.135.60";
+		String serverIp = "143.248.135.20";
 
 		try {
 			ia = InetAddress.getByName(serverIp);
-			soc = new Socket(ia, 44400);
+			soc = new Socket(ia, 44417);
 
 			OutputStream os = soc.getOutputStream();
 			BufferedOutputStream bos = new BufferedOutputStream(os);
@@ -60,7 +60,7 @@ public class KoreanAnalyzer {
 		KoreanAnalyzer ex = new KoreanAnalyzer();
 		
 		try {
-			String output = ex.getResult("한글과컴퓨터");
+			String output = ex.getResult("Antoine-Laurent de Lavoisier는 새로운 연소 이론을 주장하여 플로지스톤설을 폐기하고 화학을 발전시켰다.");
 			System.out.println(output);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

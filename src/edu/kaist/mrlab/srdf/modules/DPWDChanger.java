@@ -11,13 +11,14 @@ import org.json.simple.parser.JSONParser;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import edu.kaist.mrlab.srdf.tools.KoreanAnalyzer;
+import edu.kaist.mrlab.srdf.tools.KoreanAnalyzerREST;
 
 public class DPWDChanger {
 
 	JSONArray morpArr;
 	JSONArray depenArr;
 	JSONArray wordArr;
+	JSONArray wsdArr;
 
 	int firstSBJID;
 
@@ -44,10 +45,12 @@ public class DPWDChanger {
 				JSONObject morp = (JSONObject) s.next();
 				JSONObject depen = (JSONObject) s.next();
 				JSONObject word = (JSONObject) s.next();
+				JSONObject wsd = (JSONObject) s.next();
 
 				morpArr = (JSONArray) morp.get("morp");
 				depenArr = (JSONArray) depen.get("dependency");
 				wordArr = (JSONArray) word.get("word");
+				wsdArr = (JSONArray) word.get("WSD");
 
 				/**
 				 * 
@@ -504,10 +507,10 @@ public class DPWDChanger {
 
 	public static void main(String[] ar) {
 		CoreExtractor parser = new CoreExtractor();
-		KoreanAnalyzer ex = new KoreanAnalyzer();
+		KoreanAnalyzerREST ex = new KoreanAnalyzerREST();
 		DPWDChanger dtc = new DPWDChanger();
 		try {
-			String output1 = ex.getResult("맥수지탄은 고국의 멸망을 한탄함을 의미하는 사자성어이다.");
+			String output1 = ex.callETRI("맥수지탄은 고국의 멸망을 한탄함을 의미하는 사자성어이다.");
 			String output2 = parser.parse(output1);
 			// System.out.println(output2);
 
