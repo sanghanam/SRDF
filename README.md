@@ -13,23 +13,36 @@ SRDF is the new Korean Open IE system. The system is designed to meet the charac
 
 - Input
 문장을 입력하세요: 
+
 세종대왕은 백성들을 위해 훈민정음을 만들었다.
+
 
 - Output
 ==NPChunks==
+
 세종대왕 / 은 / 0 / NP_SBJ
+
 백성들 / 을 / 1 / NP_OBJ
+
 훈민정음 / 을 / 3 / NP_OBJ
 
+
 ==VPChunks==
+
 만들 / 었다. / 4 / [2, 3]
+
 위하 / 어 / 2 / [0, 1]
 
 
+
 ==SRDF Reified Triples==
+
 세종대왕	만들	훈민정음
+
 만들	위하	백성들
+
 ====
+
 
 If you want to modify input and output format specifically (path, console, file, ...), please see the SRDF.java file.
 
