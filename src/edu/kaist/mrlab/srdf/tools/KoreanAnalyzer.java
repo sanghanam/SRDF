@@ -16,11 +16,11 @@ public class KoreanAnalyzer {
 
 		InetAddress ia = null;
 
-		String serverIp = "143.248.135.60";
+		String serverIp = "143.248.135.20";
 
 		try {
 			ia = InetAddress.getByName(serverIp);
-			soc = new Socket(ia, 10110);
+			soc = new Socket(ia, 22334);
 
 			OutputStream os = soc.getOutputStream();
 			BufferedOutputStream bos = new BufferedOutputStream(os);
