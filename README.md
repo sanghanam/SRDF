@@ -53,7 +53,7 @@ If you want to modify input and output format specifically (path, console, file,
 
 ## Papers
 
-If you use the current of PROJECT NAME, please cite the following papers.
+If you use the current of SRDF, please cite the following papers.
 
 * Sangha Nam, Younggyun Hahm, Sejin Nam, Key-Sun Choi, [SRDF: Korean Open Information Extraction using Singleton Property](http://semanticweb.kaist.ac.kr/home/images/f/f5/SRDF_Korean_Open_Information_Extraction_using_Singleton_Property.pdf), Proc. International Semantic Web Conference, ISWC, Posters & Demonstrations Track, 2015. 
 * Sangha Nam, GyuHyeon Choi, Key-Sun Choi, [SRDF: A Novel Lexical Knowledge Graph for Whole Sentence Knowledge Extraction](http://semanticweb.kaist.ac.kr/home/images/7/77/SRDF_A_Novel_Lexical_Knowledge_Graph_for_Whole_Sentence_Knowledge_Extraction.pdf), LDK 2017: Language, Data, and Knowledge pp 315-329, 2017. 
