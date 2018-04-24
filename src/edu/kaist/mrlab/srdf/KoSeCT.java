@@ -149,7 +149,7 @@ public class KoSeCT {
 
 			chunker.chunk(result);
 
-//			chunker.printChunks2Console();
+			chunker.printChunks2Console();
 			chunkers.add(chunker);
 
 		} catch (Exception e) {
@@ -189,7 +189,7 @@ public class KoSeCT {
 			// new FileInputStream("data\\gold_standard\\gold_standard_" + sbj +
 			// ".txt"), "UTF8"));
 
-			filebr = new BufferedReader(new InputStreamReader(new FileInputStream("data\\test\\sample4.txt"), "UTF8"));
+			filebr = new BufferedReader(new InputStreamReader(new FileInputStream("data/test/sample4.txt"), "UTF8"));
 			String input = null;
 			while ((input = filebr.readLine()) != null) {
 				if (input.length() != 0) {

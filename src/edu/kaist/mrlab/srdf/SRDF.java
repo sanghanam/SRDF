@@ -46,6 +46,10 @@ public class SRDF {
 
 	public static void writeTriples(ArrayList<Triple> triples, Chunker c) throws Exception {
 
+		if (filebw == null) {
+			return;
+		}
+
 		filebw.write("STC : " + c.getText().get("text") + "\n");
 		System.out.println("STC : " + c.getText().get("text"));
 		readedSTC++;
@@ -94,11 +98,13 @@ public class SRDF {
 
 					writeTriples(triples, c);
 
+					System.out.println("==SRDF Reified Triples==");
 					for (int k = 0; k < triples.size(); k++) {
 						Triple t = triples.get(k);
 						System.out.print(t.getSubject() + "\t" + t.getPredicate() + "\t" + t.getObject() + "\n");
 						qTriples += t.getSubject() + "\t" + t.getPredicate() + "\t" + t.getObject() + "\n";
 					}
+					System.out.println("====");
 				}
 			}
 
@@ -212,37 +218,38 @@ public class SRDF {
 		String inputFile = null;
 		String outputFile = null;
 
-		if (args[0].equals("-i")) {
+		// if (args[0].equals("-i")) {
+		//
+		// inputFile = args[1];
+		// }
+		// if (args[2].equals("-o")) {
+		//
+		// outputFile = args[3];
+		// }
 
-			inputFile = args[1];
-		}
-		if (args[2].equals("-o")) {
-
-			outputFile = args[3];
-		}
-
-		long startTime = System.currentTimeMillis();
+		// long startTime = System.currentTimeMillis();
 
 		KoSeCT kosect = new KoSeCT();
 		Preprocessor p = new Preprocessor();
 		SentenceSplitter ss = new SentenceSplitter();
 		SRDF srdf = new SRDF();
 
-		// String input = srdf.inputSentence();
-		// srdf.doOneSentence(kosect, p, ss, input);
+		String input = srdf.inputSentence();
+		srdf.doOneSentence(kosect, p, ss, input);
 		// srdf.doWikiDump(kosect, p, ss);
-		srdf.doArticle(kosect, p, ss, inputFile, outputFile);
+		// srdf.doArticle(kosect, p, ss, inputFile, outputFile);
 		// srdf.doSampleFile(kosect, p, ss);
 
 		// 종료 시간
-		long endTime = System.currentTimeMillis();
+		// long endTime = System.currentTimeMillis();
 		// 시간 출력
-		System.out.println("##  시작시간 : " + new SRDF().formatTime(startTime));
-		System.out.println("##  종료시간 : " + new SRDF().formatTime(endTime));
-		System.out.println("##  소요시간(초.0f) : " + (endTime - startTime) / 1000.0f + "초");
-
-		System.out.println("## 입력 문장 수 : " + readedSTC);
-		System.out.println("## 출력 트리플 수 : " + generatedTriples);
+		// System.out.println("## 시작시간 : " + new SRDF().formatTime(startTime));
+		// System.out.println("## 종료시간 : " + new SRDF().formatTime(endTime));
+		// System.out.println("## 소요시간(초.0f) : " + (endTime - startTime) / 1000.0f +
+		// "초");
+		//
+		// System.out.println("## 입력 문장 수 : " + readedSTC);
+		// System.out.println("## 출력 트리플 수 : " + generatedTriples);
 
 	}
 }
