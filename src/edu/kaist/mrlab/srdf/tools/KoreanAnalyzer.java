@@ -20,7 +20,7 @@ public class KoreanAnalyzer {
 
 		try {
 			ia = InetAddress.getByName(serverIp);
-			soc = new Socket(ia, 22334);
+			soc = new Socket(ia, 5763);
 
 			OutputStream os = soc.getOutputStream();
 			BufferedOutputStream bos = new BufferedOutputStream(os);
