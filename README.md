@@ -7,7 +7,7 @@ SRDF is the new Korean Open IE system. The system is designed to meet the charac
 
 ## How to use
 
-mvn clean compile exec:java
+`mvn clean compile exec:java`
 
 ## Licenses
 
